@@ -64,6 +64,7 @@
             app:mtf_labelColor="#666">
 
             <EditText
+                android:id="@+id/emailAddress"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/montserrat"
@@ -87,6 +88,7 @@
             app:mtf_labelColor="#666">
 
             <EditText
+                android:id="@+id/lgnPassword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/montserrat"
@@ -101,11 +103,12 @@
         </com.github.florent37.materialtextfield.MaterialTextField>
 
         <Button
+            android:id="@+id/loginBtn"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="25dp"
-            android:text="Sign In"
+            android:text="LOG IN"
             app:backgroundTint="@color/success" />
 
         <TextView
@@ -118,7 +121,7 @@
             android:textSize="15sp" />
 
         <TextView
-            android:id="@+id/textView4"
+            android:id="@+id/createTxt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="50dp"
