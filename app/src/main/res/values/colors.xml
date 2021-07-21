@@ -8,4 +8,6 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="sp_black">#1f1a30</color>
+    <color name="dark_orange">#f28a20</color>
+    <color name="success">#4BB543</color>
 </resources>
