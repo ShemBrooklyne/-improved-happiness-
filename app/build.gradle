@@ -43,4 +43,5 @@ dependencies {
     implementation 'com.github.florent37:materialtextfield:1.0.7'
     implementation 'com.jakewharton:butterknife:10.2.3'
     annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.3'
+    implementation 'com.google.firebase:firebase-auth'
 }

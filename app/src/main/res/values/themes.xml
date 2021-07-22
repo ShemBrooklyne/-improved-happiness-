@@ -2,7 +2,7 @@
     <!-- Base application theme. -->
     <style name="Theme.ProfileDash" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/purple_500</item>
+        <item name="colorPrimary">@color/oxford</item>
         <item name="colorPrimaryVariant">@color/sp_black</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
