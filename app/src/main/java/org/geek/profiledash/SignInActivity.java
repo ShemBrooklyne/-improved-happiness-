@@ -32,6 +32,8 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
     EditText lgnPassword;
     @BindView(R.id.loginBtn)
     Button login;
+    @BindView(R.id.forgotPassword)
+    TextView forgotPassword;
 
     private FirebaseAuth firebaseAuth;
     private FirebaseAuth.AuthStateListener authStateListener;
@@ -59,6 +61,7 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
 
         createAcc.setOnClickListener(this);
         login.setOnClickListener(this);
+        forgotPassword.setOnClickListener(this);
 
         createAuthProcessDialog();
 
@@ -106,6 +109,11 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
 
         if (v == login) {
             loginWithPassword();
+        }
+
+        if (v == forgotPassword) {
+            Intent intent = new Intent(this, ForgotPassword.class);
+            startActivity(intent);
         }
     }
 

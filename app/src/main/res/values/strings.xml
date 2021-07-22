@@ -1,4 +1,21 @@
 <resources>
     <string name="app_name">ProfileDash</string>
     <string name="logout">Logout</string>
+    <string name="reset_password">RESET PASSWORD</string>
+    <string name="worry_less_let_s_reset_your_password">Worry less. Let\'s reset your password</string>
+    <string name="forgot_your_password">Forgot your password?</string>
+    <string name="let_s_get_started">Let\'s get started</string>
+    <string name="please_fill_the_input_below_to_register">Please fill the input below to register</string>
+    <string name="name">Name</string>
+    <string name="email">Email</string>
+    <string name="phone">Phone</string>
+    <string name="password">Password</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="create">CREATE</string>
+    <string name="already_have_an_account_login_here">Already have an account? Login here</string>
+    <string name="forgot_password">Forgot password?</string>
+    <string name="log_in">LOG IN</string>
+    <string name="please_sign_in_to_continue">Please sign in to continue</string>
+    <string name="welcome_back">Welcome back!</string>
+    <string name="don_t_have_an_account_sign_up">Don\'t have an account? Sign up</string>
 </resources>
