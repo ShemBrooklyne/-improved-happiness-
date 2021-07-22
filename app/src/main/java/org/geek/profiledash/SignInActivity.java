@@ -10,16 +10,17 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.pranavpandey.android.dynamic.toasts.DynamicToast;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
 
 public class SignInActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -88,8 +89,9 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         authProgressDialog.dismiss();
                         if (!task.isSuccessful()) {
-                            Toast.makeText(SignInActivity.this, "Ooops! Something went wrong \uD83D\uDE10",
-                                    Toast.LENGTH_SHORT).show();
+                            DynamicToast.makeError(SignInActivity.this, "Login failed").show();
+                        } else {
+                            DynamicToast.makeSuccess(SignInActivity.this, "Login Success").show();
                         }
                     }
                 });

@@ -18,6 +18,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.pranavpandey.android.dynamic.toasts.DynamicToast;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -91,9 +92,10 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                 authProgressDialog.dismiss();
                 if (task.isSuccessful()) {
                     createFirebaseUserProfile(task.getResult().getUser());
+                    DynamicToast.makeSuccess(SignUpActivity.this, "Profile Created Successfully").show();
                 } else {
-                    Toast.makeText(SignUpActivity.this, "Ooops! Something went wrong \uD83D\uDE14.",
-                            Toast.LENGTH_SHORT).show();
+                    DynamicToast.makeError(SignUpActivity.this, "Ooops! Something went wrong \uD83D\uDE10").show();
+
                 }
             }
         });
