@@ -12,8 +12,8 @@ import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    @BindView(R.id.button)
-    Button signin;
+//    @BindView(R.id.button)
+//    Button signin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,14 +21,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-        signin.setOnClickListener(this);
+//        signin.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
-        if (v == signin) {
-            Intent intent = new Intent(this, SignInActivity.class);
-            startActivity(intent);
-        }
+//        if (v == signin) {
+//            Intent intent = new Intent(this, SignInActivity.class);
+//            startActivity(intent);
+//        }
     }
 }
