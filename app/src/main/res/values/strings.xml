@@ -19,4 +19,5 @@
     <string name="welcome_back">Welcome back!</string>
     <string name="don_t_have_an_account_sign_up">Don\'t have an account? Sign up</string>
     <string name="powered_by_firebase">Powered by Firebase</string>
+    <string name="fadein_to_fadeout">fadein-to-fadeout</string>
 </resources>

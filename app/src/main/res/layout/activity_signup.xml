@@ -111,12 +111,12 @@
         app:mtf_labelColor="#666">
 
         <EditText
-            android:id="@+id/createPassword"
+            android:id="@+id/createAbout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/montserrat"
-            android:hint="@string/password"
-            android:inputType="textPassword"
+            android:hint="About"
+            android:inputType="textShortMessage|textPassword"
             android:textColor="@color/black"
             android:textColorHighlight="@color/dark_orange"
             android:textColorLink="@color/sp_black"
@@ -136,11 +136,11 @@
         app:mtf_labelColor="#666">
 
         <EditText
-            android:id="@+id/confirmPassword"
+            android:id="@+id/createPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/montserrat"
-            android:hint="@string/confirm_password"
+            android:hint="@string/password"
             android:inputType="textPassword"
             android:textColor="@color/black"
             android:textColorHighlight="@color/dark_orange"

@@ -16,7 +16,11 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.pranavpandey.android.dynamic.toasts.DynamicToast;
+
+import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -29,16 +33,21 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     EditText userName;
     @BindView(R.id.createEmail)
     EditText creEmail;
+    @BindView(R.id.createAbout)
+    EditText creAbout;
+    @BindView(R.id.phone)
+    EditText phoneNumber;
     @BindView(R.id.createPassword)
     EditText crePassword;
-    @BindView(R.id.confirmPassword)
-    EditText confPassword;
     @BindView(R.id.create)
     Button create;
 
     private FirebaseAuth firebaseAuth;
     private FirebaseAuth.AuthStateListener authStateListener;
     private ProgressDialog authProgressDialog;
+    FirebaseDatabase database;
+    DatabaseReference reference;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,18 +86,51 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     public void createNewUser() {
-        final String email = creEmail.getText().toString().trim();
-        String password = crePassword.getText().toString().trim();
-        boolean validEmail = isValidEmail(email);
-        boolean validPassword = isValidPassword(password);
+        String user_email = creEmail.getText().toString().trim();
+        String user_password = crePassword.getText().toString().trim();
+        String user_name = userName.getText().toString().trim();
+        String phone_number = phoneNumber.getText().toString().trim();
+        String user_about = creAbout.getText().toString().trim();
+        boolean validEmail = isValidEmail(user_email);
+        boolean validPassword = isValidPassword(user_password);
         if (!validEmail || !validPassword) return;
+        if (user_name.isEmpty()) {
+            userName.setError("Full name is required!");
+            userName.requestFocus();
+            return;
+        }
+
+        if (phone_number.isEmpty()) {
+            phoneNumber.setError("Phone number is required!");
+            phoneNumber.requestFocus();
+            return;
+        }
+
+        if (user_about.isEmpty()) {
+            creAbout.setError("Small text about yourself");
+            creAbout.requestFocus();
+            return;
+        }
 
         authProgressDialog.show();
-        firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+        firebaseAuth.createUserWithEmailAndPassword(user_email, user_password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 authProgressDialog.dismiss();
                 if (task.isSuccessful()) {
+
+                    User user = new User(user_name, phone_number, user_about, user_email);
+
+                    FirebaseDatabase.getInstance().getReference("Users")
+
+                            .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                            .setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    
+                                }
+                            });
+
                     createFirebaseUserProfile(task.getResult().getUser());
                     DynamicToast.makeSuccess(SignUpActivity.this, "Profile Created Successfully").show();
                 } else {
@@ -99,8 +141,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         });
     }
 
-    private void createFirebaseUserProfile(final FirebaseUser firebaseUser) {
-
+    private void createFirebaseUserProfile(FirebaseUser firebaseUser) {
     }
 
     private boolean isValidPassword(String password) {
@@ -118,7 +159,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
             creEmail.setError("Please enter a valid email address");
             return false;
         }
-        return isGoodEmail;
+        return true;
     }
 
     @Override

@@ -7,12 +7,28 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
 
-public class ProfileActivity extends AppCompatActivity {
+import butterknife.BindView;
+
+public class    ProfileActivity extends AppCompatActivity {
+    @BindView(R.id.profile_name)
+    TextView profileName;
+    @BindView(R.id.profile_about)
+    TextView profileAbout;
+    @BindView(R.id.profile_email)
+    TextView profileEmail;
+    @BindView(R.id.profile_phone)
+    TextView profilePhone;
 
     private FirebaseAuth firebaseAuth;
+    private FirebaseUser firebaseUser;
+    private DatabaseReference reference;
+    private String userId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,6 +36,8 @@ public class ProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_profile);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+
     }
 
     @Override
