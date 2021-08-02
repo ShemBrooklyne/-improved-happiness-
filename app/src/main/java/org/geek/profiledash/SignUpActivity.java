@@ -145,8 +145,8 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     private boolean isValidPassword(String password) {
-        if (password.length() < 8) {
-            crePassword.setError("Password is too short. Try a minimum of 8 digits");
+        if (password.length() < 6) {
+            crePassword.setError("Password is too short. Try a minimum of 6 digits");
             return false;
         }
         return true;
