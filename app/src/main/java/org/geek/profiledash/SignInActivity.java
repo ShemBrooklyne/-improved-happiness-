@@ -94,7 +94,8 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
                         if (!task.isSuccessful()) {
                             DynamicToast.makeError(SignInActivity.this, "Login failed").show();
                         } else {
-                            DynamicToast.makeSuccess(SignInActivity.this, "Login Success").show();
+                            DynamicToast.makeSuccess
+                                    (SignInActivity.this, "Login Success").show();
                         }
                     }
                 });

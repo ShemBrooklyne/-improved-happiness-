@@ -15,7 +15,7 @@ import com.google.firebase.database.DatabaseReference;
 
 import butterknife.BindView;
 
-public class    ProfileActivity extends AppCompatActivity {
+public class ProfileActivity extends AppCompatActivity {
     @BindView(R.id.profile_name)
     TextView profileName;
     @BindView(R.id.profile_about)

@@ -107,7 +107,7 @@
         android:paddingLeft="25dp"
         android:paddingTop="5dp"
         android:paddingRight="10dp"
-        app:mtf_image="@drawable/ic_lock"
+        app:mtf_image="@drawable/ic_info"
         app:mtf_labelColor="#666">
 
         <EditText
