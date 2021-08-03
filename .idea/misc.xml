@@ -5,7 +5,9 @@
       <map>
         <entry key="app/src/main/res/drawable/ic_info.xml" value="0.15104166666666666" />
         <entry key="app/src/main/res/drawable/ic_lock.xml" value="0.15104166666666666" />
+        <entry key="app/src/main/res/layout/activity_profile.xml" value="0.171875" />
         <entry key="app/src/main/res/layout/activity_signup.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/users_activity.xml" value="0.26197916666666665" />
       </map>
     </option>
   </component>

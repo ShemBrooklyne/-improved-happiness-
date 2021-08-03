@@ -1,21 +1,29 @@
 package org.geek.profiledash;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.pranavpandey.android.dynamic.toasts.DynamicToast;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class ProfileActivity extends AppCompatActivity {
+
     @BindView(R.id.profile_name)
     TextView profileName;
     @BindView(R.id.profile_about)
@@ -25,19 +33,45 @@ public class ProfileActivity extends AppCompatActivity {
     @BindView(R.id.profile_phone)
     TextView profilePhone;
 
-    private FirebaseAuth firebaseAuth;
-    private FirebaseUser firebaseUser;
-    private DatabaseReference reference;
-    private String userId;
+    public static final String TAG = "Result";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
+        ButterKnife.bind(this);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        readDbData();
+    }
 
+    public void readDbData() {
+        final FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference reference = database.getReference("Users");
+
+        ValueEventListener valueEventListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    User user = dataSnapshot.getValue(User.class);
+                    assert user != null;
+                    Log.d(TAG, "User Name: " + user.getUser_name() + ", User Email: " + user.getUser_email() + ", User About: " + user.getUser_about() + ", Phone Number: " + user.getPhone_number());
+
+                    profileName.setText(user.getUser_name());
+                    profileAbout.setText(user.getUser_about());
+                    profilePhone.setText(user.getPhone_number());
+                    profileEmail.setText(user.getUser_email());
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.d("Canceled", error.getMessage());
+                DynamicToast.makeError(ProfileActivity.this, "Failed loading profile");
+            }
+        };
+        reference.addListenerForSingleValueEvent(valueEventListener);
     }
 
     @Override

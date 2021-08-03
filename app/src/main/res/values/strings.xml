@@ -7,8 +7,6 @@
     <string name="let_s_get_started">Let\'s get started</string>
     <string name="please_fill_the_input_below_to_register">Please fill the input below to register</string>
     <string name="name">Name</string>
-    <string name="email">Email</string>
-    <string name="phone">Phone</string>
     <string name="password">Password</string>
     <string name="confirm_password">Confirm Password</string>
     <string name="create">CREATE</string>
@@ -20,4 +18,8 @@
     <string name="don_t_have_an_account_sign_up">Don\'t have an account? Sign up</string>
     <string name="powered_by_firebase">Powered by Firebase</string>
     <string name="fadein_to_fadeout">fadein-to-fadeout</string>
+    <string name="this_is_not_your_username_or_pin_this_name_will_be_visible_to_your_profile_dashboard">This is not your username or pin. This name will be visible to your profile dashboard.</string>
+    <string name="about">About</string>
+    <string name="email">Email</string>
+    <string name="phone">Phone</string>
 </resources>
