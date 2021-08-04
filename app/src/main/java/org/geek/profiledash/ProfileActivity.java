@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -47,15 +48,16 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     public void readDbData() {
-        final FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference reference = database.getReference("Users");
 
-        ValueEventListener valueEventListener = new ValueEventListener() {
+        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users");
+        assert firebaseUser != null;
+        String userID = firebaseUser.getUid();
+        reference.child(userID).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                    User user = dataSnapshot.getValue(User.class);
-                    assert user != null;
+                User user = snapshot.getValue(User.class);
+                if (user != null) {
                     Log.d(TAG, "User Name: " + user.getUser_name() + ", User Email: " + user.getUser_email() + ", User About: " + user.getUser_about() + ", Phone Number: " + user.getPhone_number());
 
                     profileName.setText(user.getUser_name());
@@ -69,9 +71,9 @@ public class ProfileActivity extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError error) {
                 Log.d("Canceled", error.getMessage());
                 DynamicToast.makeError(ProfileActivity.this, "Failed loading profile");
+
             }
-        };
-        reference.addListenerForSingleValueEvent(valueEventListener);
+        });
     }
 
     @Override
