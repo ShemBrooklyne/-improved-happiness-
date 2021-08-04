@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -18,9 +19,9 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
 import com.pranavpandey.android.dynamic.toasts.DynamicToast;
 
-import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -37,7 +38,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     EditText creAbout;
     @BindView(R.id.phone)
     EditText phoneNumber;
-    @BindView(R.id.createPassword)
+    @BindView (R.id.createPassword)
     EditText crePassword;
     @BindView(R.id.create)
     Button create;
@@ -121,6 +122,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
 
                     User user = new User(user_name, phone_number, user_about, user_email);
 
+                    FirebaseStorage.getInstance().getReference("images");
                     FirebaseDatabase.getInstance().getReference("Users")
 
                             .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
