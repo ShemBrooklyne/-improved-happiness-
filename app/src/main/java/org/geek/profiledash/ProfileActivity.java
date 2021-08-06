@@ -18,10 +18,12 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -124,15 +126,18 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
             progressDialog.setTitle("Uploading...");
             progressDialog.show();
 
+            String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
             //child storage ref
-            StorageReference reference = storageReference
-                    .child("images/" + UUID.randomUUID().toString());
+            StorageReference reference = FirebaseStorage.getInstance().getReference()
+                    .child("profileImages")
+                    .child(userId + ".jpeg");
             //upload listeners
             //listens to failure of image
             reference.putFile(filePath).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                     progressDialog.dismiss();
+                    getDownloadUrl(reference);
                     DynamicToast.makeSuccess(ProfileActivity.this, "Profile image uploaded!");
                 }
             }).addOnFailureListener(new OnFailureListener() {
@@ -149,6 +154,38 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                 }
             });
         }
+    }
+
+    public void getDownloadUrl(StorageReference storageReference) {
+        storageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                Log.d(TAG, "onSuccess: " + uri);
+                setUserProfileUrl(uri);
+            }
+        });
+    }
+
+    public void setUserProfileUrl(Uri uri) {
+        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+
+        UserProfileChangeRequest request = new UserProfileChangeRequest.Builder()
+                .setPhotoUri(uri)
+                .build();
+        assert firebaseUser != null;
+        firebaseUser.updateProfile(request)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        DynamicToast.makeSuccess(ProfileActivity.this, "Profile image set!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        DynamicToast.makeError(ProfileActivity.this, "Profile image failed!");
+                    }
+                });
     }
 
     public void readDbData() {
@@ -170,6 +207,11 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                     profilePhone.setText(user.getPhone_number());
                     profileEmail.setText(user.getUser_email());
                 }
+                if (firebaseUser.getPhotoUrl() != null) {
+                    Glide.with(ProfileActivity.this)
+                            .load(firebaseUser.getPhotoUrl())
+                            .into(profilePic);
+                }
             }
 
             @Override
@@ -182,14 +224,9 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
     }
 
-//    public void profileUpdate() {
-//        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-//        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users");
-//        StorageReference storageRef = FirebaseStorage.getInstance().getReference("images");
-//        assert firebaseUser != null;
-//        String userID = firebaseUser.getUid();
-//        reference.child(userID).child("user_profileUrl").setValue(storageRef);
-//    }
+    public void profileUpdate() {
+
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
