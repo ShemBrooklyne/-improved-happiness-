@@ -1,7 +1,4 @@
-package org.geek.profiledash;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
+package org.geek.profiledash.dashUi;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -12,21 +9,33 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.pranavpandey.android.dynamic.toasts.DynamicToast;
+
+import org.geek.profiledash.R;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class ForgotPassword extends AppCompatActivity implements View.OnClickListener {
 
+    private final Handler handler = new Handler();
+    private final Runnable updatedTimeTask = new Runnable() {
+        @Override
+        public void run() {
+            Intent intent = new Intent(ForgotPassword.this, SignInActivity.class);
+            startActivity(intent);
+        }
+    };
     @BindView(R.id.emailAddress)
     EditText emailEdit;
     @BindView(R.id.resetBtn)
     Button reset;
-
     private FirebaseAuth firebaseAuth;
     private ProgressDialog authProgressDialog;
 
@@ -73,7 +82,6 @@ public class ForgotPassword extends AppCompatActivity implements View.OnClickLis
             }
         });
     }
-    private final Handler handler = new Handler();
 
     @Override
     public void onClick(View v) {
@@ -82,13 +90,5 @@ public class ForgotPassword extends AppCompatActivity implements View.OnClickLis
         }
         handler.postDelayed(updatedTimeTask, 850);
     }
-
-    private final Runnable updatedTimeTask = new Runnable() {
-        @Override
-        public void run() {
-            Intent intent = new Intent(ForgotPassword.this, SignInActivity.class);
-            startActivity(intent);
-        }
-    };
 
 }

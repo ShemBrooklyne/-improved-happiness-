@@ -13,17 +13,17 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ProfileDash">
         <activity
-            android:name=".ForgotPassword"
+            android:name=".dashUi.ForgotPassword"
             android:theme="@style/NoActionBar" />
-        <activity android:name=".ProfileActivity" />
+        <activity android:name=".dashUi.ProfileActivity" />
         <activity
-            android:name=".SignInActivity"
-            android:theme="@style/NoActionBar" />
-        <activity
-            android:name=".SignUpActivity"
+            android:name=".dashUi.SignInActivity"
             android:theme="@style/NoActionBar" />
         <activity
-            android:name=".SplashActivity"
+            android:name=".dashUi.SignUpActivity"
+            android:theme="@style/NoActionBar" />
+        <activity
+            android:name=".dashUi.SplashActivity"
             android:theme="@style/NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

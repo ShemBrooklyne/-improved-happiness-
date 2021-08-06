@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/sp_black"
     android:orientation="horizontal"
-    tools:context=".SignInActivity">
+    tools:context=".dashUi.SignInActivity">
 
     <RelativeLayout
         android:id="@+id/imageHold"

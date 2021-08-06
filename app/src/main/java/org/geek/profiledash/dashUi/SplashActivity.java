@@ -1,10 +1,12 @@
-package org.geek.profiledash;
+package org.geek.profiledash.dashUi;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import org.geek.profiledash.R;
 
 import maes.tech.intentanim.CustomIntent;
 

@@ -1,4 +1,6 @@
-package org.geek.profiledash;
+package org.geek.profiledash.model;
+
+import androidx.annotation.NonNull;
 
 public class User {
 
@@ -17,6 +19,7 @@ public class User {
         this.user_email = user_email;
     }
 
+    @NonNull
     @Override
     public String toString() {
         return "User{" +

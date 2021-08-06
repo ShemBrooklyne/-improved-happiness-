@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/sp_black"
-    tools:context=".ProfileActivity">
+    tools:context=".dashUi.ProfileActivity">
 
 
     <RelativeLayout
@@ -22,27 +22,27 @@
             android:layout_height="200dp"
             android:layout_centerInParent="true"
             android:padding="16dp"
-            android:src="@drawable/profile_image"
+            android:src="@drawable/user"
             app:civ_border_color="@android:color/darker_gray"
             app:civ_border_width="2dp" />
 
-        <Button
-            android:id="@+id/uploadBtn"
-            android:layout_width="127dp"
-            android:layout_height="36dp"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginStart="139dp"
-            android:layout_marginLeft="139dp"
-            android:layout_marginTop="218dp"
-            android:layout_marginEnd="145dp"
-            android:layout_marginRight="145dp"
-            android:layout_marginBottom="-4dp"
-            android:text="Upload" />
+        <ImageView
+            android:id="@+id/post_profile"
+            android:layout_width="51dp"
+            android:layout_height="48dp"
+            android:layout_alignStart="@+id/profile_image"
+            android:layout_alignLeft="@+id/profile_image"
+            android:layout_alignTop="@+id/profile_image"
+            android:layout_alignEnd="@+id/profile_image"
+            android:layout_alignRight="@+id/profile_image"
+            android:layout_alignBottom="@+id/profile_image"
+            android:layout_marginStart="125dp"
+            android:layout_marginLeft="125dp"
+            android:layout_marginTop="154dp"
+            android:layout_marginEnd="27dp"
+            android:layout_marginRight="27dp"
+            android:layout_marginBottom="2dp"
+            app:srcCompat="@drawable/ic_camera" />
 
     </RelativeLayout>
 

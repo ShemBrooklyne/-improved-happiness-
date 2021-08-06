@@ -1,7 +1,4 @@
-package org.geek.profiledash;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
+package org.geek.profiledash.dashUi;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -9,8 +6,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -22,6 +21,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.pranavpandey.android.dynamic.toasts.DynamicToast;
 
+import org.geek.profiledash.R;
+import org.geek.profiledash.model.User;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -38,17 +39,15 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     EditText creAbout;
     @BindView(R.id.phone)
     EditText phoneNumber;
-    @BindView (R.id.createPassword)
+    @BindView(R.id.createPassword)
     EditText crePassword;
     @BindView(R.id.create)
     Button create;
-
+    FirebaseDatabase database;
+    DatabaseReference reference;
     private FirebaseAuth firebaseAuth;
     private FirebaseAuth.AuthStateListener authStateListener;
     private ProgressDialog authProgressDialog;
-    FirebaseDatabase database;
-    DatabaseReference reference;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -127,11 +126,11 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
 
                             .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
                             .setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                @Override
-                                public void onComplete(@NonNull Task<Void> task) {
-                                    
-                                }
-                            });
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+
+                        }
+                    });
 
                     createFirebaseUserProfile(task.getResult().getUser());
                     DynamicToast.makeSuccess(SignUpActivity.this, "Profile Created Successfully").show();

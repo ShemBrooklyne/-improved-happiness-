@@ -1,7 +1,4 @@
-package org.geek.profiledash;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
+package org.geek.profiledash.dashUi;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -14,9 +11,11 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -35,15 +34,19 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.pranavpandey.android.dynamic.toasts.DynamicToast;
 
-import java.io.FileNotFoundException;
+import org.geek.profiledash.R;
+import org.geek.profiledash.model.User;
+
 import java.io.IOException;
-import java.util.UUID;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class ProfileActivity extends AppCompatActivity implements View.OnClickListener {
 
+    public static final String TAG = "Result";
+    // request code
+    private final int PICK_IMAGE_REQUEST = 22;
     @BindView(R.id.profile_name)
     TextView profileName;
     @BindView(R.id.profile_about)
@@ -54,18 +57,12 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     TextView profilePhone;
     @BindView(R.id.profile_image)
     ImageView profilePic;
-    @BindView(R.id.uploadBtn)
-    Button upload;
-
-    private Uri filePath;
-    // request code
-    private final int PICK_IMAGE_REQUEST = 22;
-
+    @BindView(R.id.post_profile)
+    ImageView uploadProfile;
     // firebase storage and reference instance
     FirebaseStorage storage;
     StorageReference storageReference;
-
-    public static final String TAG = "Result";
+    private Uri filePath;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,8 +72,8 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        uploadProfile.setOnClickListener(this);
         profilePic.setOnClickListener(this);
-        upload.setOnClickListener(this);
 
         // Firebase storage reference
         storage = FirebaseStorage.getInstance();
@@ -91,6 +88,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         intent.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(Intent.createChooser(intent, "Select image from here..."), PICK_IMAGE_REQUEST);
     }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -112,8 +110,6 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                         );
                 profilePic.setImageBitmap(bitmap);
 
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -150,7 +146,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                 @Override
                 public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
                     double progress = (100.0 * snapshot.getBytesTransferred() / snapshot.getTotalByteCount());
-                    progressDialog.setMessage("Uploaded " + (int)progress + "%");
+                    progressDialog.setMessage("Uploaded " + (int) progress + "%");
                 }
             });
         }
@@ -192,7 +188,6 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users");
-        StorageReference storageRef = FirebaseStorage.getInstance().getReference("images");
         assert firebaseUser != null;
         String userID = firebaseUser.getUid();
         reference.child(userID).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -255,11 +250,13 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
     @Override
     public void onClick(View v) {
+        // done dirty
+        if (v == uploadProfile) {
+            uploadImage();
+        }
+
         if (v == profilePic) {
             selectImage();
-        }
-        if (v == upload) {
-            uploadImage();
         }
     }
 }
