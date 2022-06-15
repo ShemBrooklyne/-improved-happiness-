@@ -48,16 +48,13 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
         ButterKnife.bind(this);
 
         firebaseAuth = FirebaseAuth.getInstance();
-        authStateListener = new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
-                if (firebaseUser != null) {
-                    Intent intent = new Intent(SignInActivity.this, ProfileActivity.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    startActivity(intent);
-                    finish();
-                }
+        authStateListener = firebaseAuth -> {
+            FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+            if (firebaseUser != null) {
+                Intent intent = new Intent(SignInActivity.this, ProfileActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+                finish();
             }
         };
 
@@ -89,15 +86,12 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
         }
         authProgressDialog.show();
         firebaseAuth.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        authProgressDialog.dismiss();
-                        if (!task.isSuccessful()) {
-                            DynamicToast.makeError(SignInActivity.this, "Login failed").show();
-                        } else {
-                            DynamicToast.makeSuccess(SignInActivity.this, "Login Success").show();
-                        }
+                .addOnCompleteListener(this, task -> {
+                       authProgressDialog.dismiss();
+                    if (!task.isSuccessful()) {
+                        DynamicToast.makeError(SignInActivity.this, "Login failed").show();
+                    } else {
+                        DynamicToast.makeSuccess(SignInActivity.this, "Login Success").show();
                     }
                 });
     }

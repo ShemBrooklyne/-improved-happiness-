@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.FileUriExposedException;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Menu;
@@ -94,20 +95,12 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == PICK_IMAGE_REQUEST
-                && resultCode == RESULT_OK
-                && data != null
-                && data.getData() != null) {
-
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK
+                && data != null && data.getData() != null) {
             filePath = data.getData();
             try {
                 Bitmap bitmap = MediaStore
-                        .Images
-                        .Media
-                        .getBitmap(
-                                getContentResolver(),
-                                filePath
-                        );
+                        .Images.Media.getBitmap(getContentResolver(), filePath);
                 profilePic.setImageBitmap(bitmap);
 
             } catch (IOException e) {
@@ -116,7 +109,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         }
     }
 
-    public void uploadImage() {
+    public void uploadImage() throws FileUriExposedException {
         if (filePath != null) {
             ProgressDialog progressDialog = new ProgressDialog(this);
             progressDialog.setTitle("Uploading...");
@@ -129,19 +122,13 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                     .child(userId + ".jpeg");
             //upload listeners
             //listens to failure of image
-            reference.putFile(filePath).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    progressDialog.dismiss();
-                    getDownloadUrl(reference);
-                    DynamicToast.makeSuccess(ProfileActivity.this, "Profile image uploaded!");
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    progressDialog.dismiss();
-                    DynamicToast.makeError(ProfileActivity.this, "Profile upload failed!");
-                }
+            reference.putFile(filePath).addOnSuccessListener(taskSnapshot -> {
+                progressDialog.dismiss();
+                getDownloadUrl(reference);
+                DynamicToast.makeSuccess(ProfileActivity.this, "Profile image uploaded!");
+            }).addOnFailureListener(e -> {
+                progressDialog.dismiss();
+                DynamicToast.makeError(ProfileActivity.this, "Profile upload failed!");
             }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
@@ -153,12 +140,9 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     public void getDownloadUrl(StorageReference storageReference) {
-        storageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-            @Override
-            public void onSuccess(Uri uri) {
-                Log.d(TAG, "onSuccess: " + uri);
-                setUserProfileUrl(uri);
-            }
+        storageReference.getDownloadUrl().addOnSuccessListener(uri -> {
+            Log.d(TAG, "onSuccess: " + uri);
+            setUserProfileUrl(uri);
         });
     }
 
@@ -166,22 +150,11 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
         UserProfileChangeRequest request = new UserProfileChangeRequest.Builder()
-                .setPhotoUri(uri)
-                .build();
+                .setPhotoUri(uri).build();
         assert firebaseUser != null;
         firebaseUser.updateProfile(request)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void unused) {
-                        DynamicToast.makeSuccess(ProfileActivity.this, "Profile image set!");
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        DynamicToast.makeError(ProfileActivity.this, "Profile image failed!");
-                    }
-                });
+                .addOnSuccessListener(unused -> DynamicToast.makeSuccess(ProfileActivity.this, "Profile image set!"))
+                .addOnFailureListener(e -> DynamicToast.makeError(ProfileActivity.this, "Profile image failed!"));
     }
 
     public void readDbData() {
@@ -204,8 +177,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                 }
                 if (firebaseUser.getPhotoUrl() != null) {
                     Glide.with(ProfileActivity.this)
-                            .load(firebaseUser.getPhotoUrl())
-                            .into(profilePic);
+                            .load(firebaseUser.getPhotoUrl()).into(profilePic);
                 }
             }
 
@@ -216,10 +188,6 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
             }
         });
-
-    }
-
-    public void profileUpdate() {
 
     }
 

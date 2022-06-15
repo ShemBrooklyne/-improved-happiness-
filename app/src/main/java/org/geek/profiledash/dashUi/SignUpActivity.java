@@ -126,11 +126,11 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
 
                             .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
                             .setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task) {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
 
-                        }
-                    });
+                                }
+                            });
 
                     createFirebaseUserProfile(task.getResult().getUser());
                     DynamicToast.makeSuccess(SignUpActivity.this, "Profile Created Successfully").show();

@@ -70,15 +70,12 @@ public class ForgotPassword extends AppCompatActivity implements View.OnClickLis
         }
 
         authProgressDialog.show();
-        firebaseAuth.sendPasswordResetEmail(email).addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                authProgressDialog.dismiss();
-                if (task.isSuccessful()) {
-                    DynamicToast.makeSuccess(ForgotPassword.this, "Reset link has been sent to your email!").show();
-                } else {
-                    DynamicToast.makeWarning(ForgotPassword.this, "Try again! Something went wrong!").show();
-                }
+        firebaseAuth.sendPasswordResetEmail(email).addOnCompleteListener(task -> {
+            authProgressDialog.dismiss();
+            if (task.isSuccessful()) {
+                DynamicToast.makeSuccess(ForgotPassword.this, "Reset link has been sent to your email!").show();
+            } else {
+                DynamicToast.makeWarning(ForgotPassword.this, "Try again! Something went wrong!").show();
             }
         });
     }

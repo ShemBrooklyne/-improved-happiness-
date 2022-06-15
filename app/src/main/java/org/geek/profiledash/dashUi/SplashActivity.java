@@ -20,7 +20,7 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-//        Delay Request
+        //Delay Request
         handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
@@ -28,7 +28,7 @@ public class SplashActivity extends AppCompatActivity {
                 Intent intent = new Intent(SplashActivity.this, SignInActivity.class);
                 startActivity(intent);
 
-//                Activity transition animation
+                //Activity transition animation
                 CustomIntent.customType(SplashActivity.this, getString(R.string.fadein_to_fadeout));
                 finish();
             }
