@@ -5,7 +5,6 @@ plugins {
 android {
     compileSdkVersion 30
     //noinspection GradleDependency
-    buildToolsVersion "30.0.2"
 
     defaultConfig {
         applicationId "org.geek.profiledash"
